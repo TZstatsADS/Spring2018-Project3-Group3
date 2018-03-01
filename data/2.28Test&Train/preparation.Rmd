@@ -1,0 +1,29 @@
+---
+title: '1'
+author: "zx2221"
+date: "February 28, 2018"
+output: ioslides_presentation
+---
+
+
+```{r}
+Data <- read.csv("SIFT_train.csv", header = FALSE)
+head(Data)
+Data <- Data[,-1]
+names(Data) <- paste(paste("Var", 1:2000, sep = ""))
+Lottery <- sample(1:100, 3000, replace = TRUE)
+sum(Lottery <= 25)
+
+Class <- read.csv("label_train.csv")
+
+Train <- Data[which(Lottery > 25), ]
+Test <- Data[which(Lottery <= 25), ]
+TrainClass <- Class[which(Lottery > 25),3]
+TestClass <- Class[which(Lottery <= 25),3]
+
+write.csv(Train, "TrainData_SIFT.csv")
+write.csv(Test, "TestData_SIFT.csv")
+write.csv(TrainClass, "TrainClass_SIFT.csv")
+write.csv(TestClass, "TestClass_SIFT.csv")
+
+```
