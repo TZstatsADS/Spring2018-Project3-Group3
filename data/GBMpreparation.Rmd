@@ -1,0 +1,48 @@
+---
+title: 'Tutorial 2: EDAV using shiny'
+author: "Tian Zheng"
+date: "February 3, 2017"
+output: ioslides_presentation
+---
+
+
+```{r}
+library(gbm)
+
+TrainData <- read.csv("TrainData_SIFT.csv")
+TrainClass <- read.csv("TrainClass_SIFT.csv")
+
+TrainData <- TrainData[,-1]
+TrainClass <- TrainClass[,-1]
+
+TrainClass_Isdog <- TrainClass -1; TrainClass_Isdog[TrainClass_Isdog == 2] <- 0
+TestClass_Isdog <- TestClass -1; TestClass_Isdog[TestClass_Isdog == 2] <- 0
+
+
+gbm_fit <- gbm.fit(x = TrainData, y = TrainClass,
+                   distribution = "multinomial",
+                   n.trees = 5000,
+                   shrinkage = .003,
+                   interaction.depth = 1, 
+                   nTrain = 0.8 * length(TrainClass),
+                   verbose = TRUE)
+
+save(gbm_fit,file='GBM_IsDog_Model.RData')
+
+###Run the code below
+load("GBMModel.RData")
+
+gbm.perf(gbm_fit)
+TestData <- read.csv("TestData_SIFT.csv")
+TestClass <- read.csv("TestClass_SIFT.csv")
+TestData <- TestData[,-1]
+TestClass <- TestClass[,-1]
+
+Test.pred <- predict(object = gbm_fit, newdata = TestData, n.trees = gbm.perf(gbm_fit, plot.it = FALSE), type = "response")
+#Test.pred <- round(Test.pred)
+for (i in 1:755)
+  Test.pred[i] <- which.max(c(Test.pred[i], Test.pred[i + 755], Test.pred[i + 755 + 755]))
+Test.pred <- Test.pred[1:755]
+sum(Test.pred == TestClass)/ 755
+
+```
