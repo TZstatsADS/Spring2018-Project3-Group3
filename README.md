@@ -14,7 +14,8 @@ Term: Spring 2018
 	+ Yuhan Zha
 	+ Junkai Zhang
 
-+ Project summary: In this project, we improved a classification baseline model using SIFT+GBM for images of dogs, fried chickens and blueberry muffins interms of ruing time cost and prediction accracy. The baseline model for comparison uses Gradient Boosting Machine (GBM) with decision stumps on 5000 SIFT features. Our group uses 3 image feature selection models, including SIFT, RGB, LBP and the arbitrary 2 combinations, and 8 classification moodels. The procedure as follows:
++ Project summary: 
+In this project, we improved a classification baseline model for images of dogs, fried chickens and blueberry muffins in terms of ruing time cost and prediction accuracy. The baseline model for comparison uses Gradient Boosting Machine (GBM) with decision stumps on 2000 SIFT features. Our group uses 3 image feature selection models, including SIFT, RGB, LBP and the arbitrary combinations of them, and 8 classification models, including GBM, SVM, XgBoost, Random Forest, Neural Network, AdaBoost, Logistic Regression and Classification Trees. The procedure as follows:
 
 ![image](figs/1.jpg)
 
