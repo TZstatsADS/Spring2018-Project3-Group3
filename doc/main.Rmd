@@ -1,7 +1,7 @@
 ---
-title: "Project 3 - Example Main Script"
-author: "Yuting Ma, Tian Zheng"
-date: "February 24, 2016"
+title: "Project 3 - Dogs, Fried Chicken or Blueberry Muffins?"
+author: "Keran Li, Mingming Liu, Zhongxing Xue, Yuhan Zha, Junkai Zhang"
+date: "March 19, 2018"
 output:
   pdf_document: default
   html_document: default
