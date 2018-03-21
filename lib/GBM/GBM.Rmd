@@ -1,0 +1,53 @@
+---
+title: 'GBM'
+author: "Zhongxing Xue"
+date: "March 20, 2018"
+output: ioslides_presentation
+---
+
+
+```{r}
+TrainData <- read.csv("Feature_v4_TrainData.csv")
+TrainClass <- read.csv("Feature_v4_TrainClass.csv")
+TestData <- read.csv("Feature_v4_TestData.csv")
+TestClass <- read.csv("Feature_v4_TestClass.csv")
+TrainData <- TrainData[,-1]
+TrainClass <- TrainClass[,-1]
+TestData <- TestData[,-1]
+TestClass <- TestClass[,-1]
+```
+
+```{r}
+library(gbm)
+timestart<-Sys.time()
+shr <- 0.03; dep <- 3; ntree <- 800;
+gbm_fit <- gbm.fit(x = TrainData, y = TrainClass,
+                   distribution = "multinomial",
+                   n.trees = ntree,
+                   shrinkage = shr,
+                   interaction.depth = dep, 
+                   nTrain = 0.8 * length(TrainClass),
+                   verbose = TRUE)
+
+###Save the model
+#save(gbm_fit,file='GBM_IsDog_Model.RData')
+###Load the model
+load("GBM_ALL_0.03_3_Acc0.870147255689424.RData")
+Best <- gbm.perf(gbm_fit, plot.it = FALSE)
+#summary(gbm_fit, Best)
+timeend<-Sys.time()
+runningtime<-timeend-timestart
+print(runningtime)
+
+Test.pred <- predict(object = gbm_fit, newdata = TestData, n.trees = gbm.perf(gbm_fit, plot.it = FALSE), type = "response")
+#Test.pred <- round(Test.pred)
+
+Test.pred <- matrix(Test.pred, ncol =3)
+Test.pred <- apply(Test.pred, 1, which.max)
+Acc <- sum(Test.pred == TestClass)/ length(TestClass)
+
+save(gbm_fit,file=paste('GBM_V4_', shr,'_', dep,'_Acc',Acc,'.RData',sep=""))
+
+A <- Test.pred == TestClass
+save(Test.pred, file = "01-pred-GBMTest.RData")
+```
