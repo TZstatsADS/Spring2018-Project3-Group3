@@ -2,7 +2,8 @@
 # Presentation Plots
 ###################################
 # Plot of Log Loss
-loss.data <- data.frame(x=c(1:200),y=cv_model[["evaluation_log"]][, 4])
+
+loss.data <- data.frame(x=c(1:5000),y=cv_model[["evaluation_log"]][, 4])
 ggplot(data = loss.data)+
   geom_line(mapping = aes(x=loss.data[,1],y=loss.data[,2]))+
   geom_point(mapping = aes(x=min_logloss_index,y=min_logloss),color = "red")+
@@ -16,7 +17,6 @@ ggplot(data = loss.data)+
   theme(axis.title.x = element_text(size = 12, color = "black", face = "bold", vjust = 0.5, hjust = 0.5, angle = 0))+
   ylab("Log Loss") + 
   theme(axis.title.y = element_text(size = 12, color = "black", face = "bold", vjust = 0.5, hjust = 0.5, angle = 90))
-
 
 # Plot of Result
 acc <- c(0.8624,0.8377,0.9103,0.8831,0.8913,0.8280,0.7950)
