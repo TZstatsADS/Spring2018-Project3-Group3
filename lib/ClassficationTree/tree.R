@@ -28,4 +28,4 @@ table(predicted = prune_tst_pred, actual = test$class)
 # test accuracy
 (tree_tst_acc = accuracy(predicted = prune_tst_pred, actual = test$class))
 
-save(tree,file='tree_Model.RData')
+
