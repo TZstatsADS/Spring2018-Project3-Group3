@@ -35,11 +35,15 @@ We interpreted Image RGB feature and selected the top 5 significant varible for 
 
 Zhongxing Xue organized the team work and discussion, and led the whole team to make analysis and summary. ZX put forward the Image RGB feature, and wrote code to calculate them. ZX was also responsible for GBM model. Zhongxing was the presenter of the group, and he designed the powerpoint.
 
+
 Keran Li: coded the Neural Network Model, Logistic Regression Model and their cross validation in R. Coded the LBP and PCA feature selection function. Wrote the readme file for the project.
+
 
 Mingming Liu: coded the Adaboosting Model and Randomforest Model and their cross validation in R. Responsible for organized the test and train document.
 
+
 Junkai Zhang: coded the cross validation and grid search procedure of XgBoost Model in R and prepared plots for the powerpoint.
+
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
