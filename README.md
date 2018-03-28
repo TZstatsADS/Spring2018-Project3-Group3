@@ -39,7 +39,7 @@ Zhongxing Xue organized the team work and discussion, and led the whole team to 
 Keran Li: coded the Neural Network Model, Logistic Regression Model and their cross validation in R. Coded the LBP and PCA feature selection function. Wrote the readme file for the project.
 
 
-Mingming Liu: coded the Adaboosting Model and Randomforest Model and their cross validation in R. Responsible for organized the test and train document.
+Mingming Liu: coded the Adaboosting Model and Randomforest Model and their cross validation in R. Responsible for organized the test and train document and help Xue to prepared for the explaination of determined colors.
 
 
 Junkai Zhang: coded the cross validation and grid search procedure of XgBoost Model in R and prepared plots for the powerpoint.
