@@ -128,319 +128,36 @@ $(document).ready(function () {
 
 <div id="step-0-prepare-packages" class="section level3">
 <h3>Step 0: Prepare packages</h3>
-<pre class="r"><code># Load the libraries
-packages.used &lt;- c(&quot;EBImage&quot;,&quot;gbm&quot;,&quot;caret&quot;,&quot;nnet&quot;,&quot;xgboost&quot;,&quot;xgboost&quot;,
-                   &quot;haven&quot;,&quot;tidyverse&quot;,&quot;mlr&quot;,&quot;plyr&quot;,&quot;ggplot2&quot;,&quot;randomForest&quot;,
-                   &quot;adabag&quot;,&quot;neuralnet&quot;,&quot;grDevices&quot;,&quot;kernlab&quot;,&quot;tree&quot;)
-
-#if(!require(&quot;EBImage&quot;)){
-#  source(&quot;https://bioconductor.org/biocLite.R&quot;)
-#  biocLite(&quot;EBImage&quot;)
-#}
-
-# Check packages
-packages.needed=setdiff(packages.used, 
-                        intersect(installed.packages()[,1], 
-                                  packages.used))
-# install needed packages
-if(length(packages.needed)&gt;0){
-  install.packages(packages.needed, dependencies = TRUE)
-}
-
-library(&quot;EBImage&quot;)
-library(&quot;gbm&quot;)</code></pre>
-<pre><code>## Loading required package: survival</code></pre>
-<pre><code>## Loading required package: lattice</code></pre>
-<pre><code>## Loading required package: splines</code></pre>
-<pre><code>## Loading required package: parallel</code></pre>
-<pre><code>## Loaded gbm 2.1.3</code></pre>
-<pre class="r"><code>library(&quot;kernlab&quot;)
-library(&quot;tree&quot;)
-library(&quot;caret&quot;)</code></pre>
-<pre><code>## Loading required package: ggplot2</code></pre>
-<pre><code>## 
-## Attaching package: 'ggplot2'</code></pre>
-<pre><code>## The following object is masked from 'package:kernlab':
-## 
-##     alpha</code></pre>
-<pre><code>## 
-## Attaching package: 'caret'</code></pre>
-<pre><code>## The following object is masked from 'package:survival':
-## 
-##     cluster</code></pre>
-<pre class="r"><code>library(&quot;nnet&quot;)
-library(&quot;xgboost&quot;)
-library(&quot;haven&quot;)
-library(&quot;tidyverse&quot;) </code></pre>
-<pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ tibble  1.4.2     ✔ purrr   0.2.4
-## ✔ tidyr   0.8.0     ✔ dplyr   0.7.4
-## ✔ readr   1.1.1     ✔ stringr 1.3.0
-## ✔ tibble  1.4.2     ✔ forcats 0.3.0</code></pre>
-<pre><code>## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
-## ✖ ggplot2::alpha()   masks kernlab::alpha()
-## ✖ dplyr::combine()   masks EBImage::combine()
-## ✖ purrr::cross()     masks kernlab::cross()
-## ✖ dplyr::filter()    masks stats::filter()
-## ✖ dplyr::lag()       masks stats::lag()
-## ✖ purrr::lift()      masks caret::lift()
-## ✖ dplyr::slice()     masks xgboost::slice()
-## ✖ purrr::transpose() masks EBImage::transpose()</code></pre>
-<pre class="r"><code>library(&quot;mlr&quot;)</code></pre>
-<pre><code>## Loading required package: ParamHelpers</code></pre>
-<pre><code>## 
-## Attaching package: 'mlr'</code></pre>
-<pre><code>## The following object is masked from 'package:caret':
-## 
-##     train</code></pre>
-<pre class="r"><code>library(&quot;plyr&quot;)</code></pre>
-<pre><code>## -------------------------------------------------------------------------</code></pre>
-<pre><code>## You have loaded plyr after dplyr - this is likely to cause problems.
-## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-## library(plyr); library(dplyr)</code></pre>
-<pre><code>## -------------------------------------------------------------------------</code></pre>
-<pre><code>## 
-## Attaching package: 'plyr'</code></pre>
-<pre><code>## The following objects are masked from 'package:dplyr':
-## 
-##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-##     summarize</code></pre>
-<pre><code>## The following object is masked from 'package:purrr':
-## 
-##     compact</code></pre>
-<pre class="r"><code>library(&quot;ggplot2&quot;)
-library(&quot;randomForest&quot;)</code></pre>
-<pre><code>## randomForest 4.6-14</code></pre>
-<pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
-<pre><code>## 
-## Attaching package: 'randomForest'</code></pre>
-<pre><code>## The following object is masked from 'package:dplyr':
-## 
-##     combine</code></pre>
-<pre><code>## The following object is masked from 'package:ggplot2':
-## 
-##     margin</code></pre>
-<pre><code>## The following object is masked from 'package:EBImage':
-## 
-##     combine</code></pre>
-<pre class="r"><code>library(&quot;adabag&quot;)</code></pre>
-<pre><code>## Loading required package: rpart</code></pre>
-<pre><code>## Loading required package: foreach</code></pre>
-<pre><code>## 
-## Attaching package: 'foreach'</code></pre>
-<pre><code>## The following objects are masked from 'package:purrr':
-## 
-##     accumulate, when</code></pre>
-<pre><code>## Loading required package: doParallel</code></pre>
-<pre><code>## Loading required package: iterators</code></pre>
-<pre class="r"><code>library(&quot;neuralnet&quot;)</code></pre>
-<pre><code>## 
-## Attaching package: 'neuralnet'</code></pre>
-<pre><code>## The following object is masked from 'package:dplyr':
-## 
-##     compute</code></pre>
-<pre class="r"><code>library(&quot;grDevices&quot;)</code></pre>
 </div>
 <div id="step-0-specify-directories." class="section level3">
 <h3>Step 0: specify directories.</h3>
 <p>Set the working directory to the image folder. Specify the training and the testing set. For data without an independent test/validation set, you need to create your own testing data by random subsampling. In order to obain reproducible results, set.seed() whenever randomization is used.</p>
-<pre class="r"><code>#setwd(&quot;~/Desktop/Spring2018-Project3-Group3/&quot;)</code></pre>
-<pre class="r"><code>experiment_dir &lt;- &quot;../data/&quot;
-img_train_dir &lt;- paste(experiment_dir, &quot;train/&quot;, sep=&quot;&quot;)
-img_test_dir &lt;- paste(experiment_dir, &quot;test/&quot;, sep=&quot;&quot;)</code></pre>
 </div>
 <div id="step-1-set-up-controls-for-evaluation-experiments." class="section level3">
 <h3>Step 1: Set up controls for evaluation experiments.</h3>
 <p>In this chunk, we have a set of controls for the evaluation experiments.</p>
 <p>(T/F) process features for training set (T/F) run evaluation on an independent test set (T/F) process features for test set</p>
-<pre class="r"><code>run.feature.train = TRUE    
-run.test = TRUE
-run.feature.test = TRUE 
-run.feature.RGB &lt;- FALSE</code></pre>
 <div id="set-up-controls-indicating-which-model-to-run" class="section level5">
 <h5>Set up controls indicating which model to run</h5>
-<pre class="r"><code>run.xgboost = TRUE
-run.adaboost = FALSE
-run.tree = FALSE
-run.gbm = TRUE
-run.lg = FALSE
-run.nnt = FALSE
-run.rf = FALSE
-run.svm = FALSE</code></pre>
 </div>
 </div>
 <div id="step-2-extract-features" class="section level3">
 <h3>Step 2: Extract features</h3>
-<pre class="r"><code>source(&quot;../lib/SelectFeature.R&quot;)
-
-# tm_feature_train &lt;- NA
-# if(run.feature.train){
-#   tm_feature_train &lt;- system.time(dat_train &lt;- SelectFeature(SIFTname, SubGroup))
-# }
-# cat(&quot;Time for constructing training features=&quot;, tm_feature_train[1], &quot;s \n&quot;)
-
-#tm_feature_test &lt;- NA
-#if(run.feature.test){
-#  tm_feature_test &lt;- system.time(dat_test &lt;-SelectFeature())
-#}
-# Running time
-#cat(&quot;Time for constructing testing features=&quot;, tm_feature_test[1], &quot;s \n&quot;)
-
-#save(dat_train, file=&quot;./output/feature_train.RData&quot;)
-#save(dat_test, file=&quot;./output/feature_test.RData&quot;)
-if (run.feature.RGB)
-{
-  TotalImage &lt;- 2100
-  lottery &lt;- sample(1:5, TotalImage, replace = TRUE)
-  FeatureData &lt;- SelectFeature(N = TotalImage)
-  class_train &lt;- c(rep(1,1000), rep(2, 1000), rep(3, 1000))
-  class_train &lt;- class_train[1:TotalImage]
-  dat_train &lt;- cbind(class_train[which(lottery != 1)], FeatureData[which(lottery != 1),])
-  colnames(dat_train)[1] &lt;- &quot;class&quot;
-  dat_test &lt;-  FeatureData[which(lottery == 1),]
-}
-if (!run.feature.RGB)
-{
-  TotalImage &lt;- 3000
-  lottery &lt;- sample(1:5, TotalImage, replace = TRUE)
-  class_train &lt;- c(rep(1,1000), rep(2, 1000), rep(3, 1000))
-  dat_train &lt;- read.csv(&quot;../lib/SIFT_test.csv&quot;)
-  dat_train &lt;- dat_train[,-1]
-  dat_test &lt;- dat_train[which(lottery == 1),]
-  dat_train &lt;- cbind(class_train[which(lottery != 1)], dat_train[which(lottery != 1),])
-  colnames(dat_train)[1] &lt;- &quot;class&quot;
-}</code></pre>
 </div>
 <div id="step-3-import-training-and-test-data-of-best-features." class="section level3">
 <h3>Step 3: Import training and test data of best features.</h3>
-<pre class="r"><code>#train_all_data &lt;- rbind(tr_data, te_data)
-#train_all_class &lt;- rbind(tr_class, te_class)
-
-# Training data
-#dat_train &lt;- cbind(train_all_class[,-1], train_all_data[,-1])
-
-
-# testdata &lt;- cbind(te_class[,-1], te_data[,-1])
-# colnames(test)[1] &lt;- &quot;class&quot;
-# dim(dat_train)</code></pre>
 </div>
 <div id="step-4-train-a-classification-model-with-training-images" class="section level3">
 <h3>Step 4: Train a classification model with training images</h3>
 <p>Call the train model and test model from library.</p>
 <p><code>train.R</code> and <code>test.R</code> should be wrappers for all your model training steps and your classification/prediction steps. + <code>train.R</code> + Input: a path that points to the training set features. + Input: an R object of training sample labels. + Output: an RData file that contains trained classifiers in the forms of R objects: models/settings/links to external trained configurations. + <code>test.R</code> + Input: a path that points to the test set features. + Input: an R object that contains a trained classifier. + Output: an R object of class label predictions on the test set. If there are multiple classifiers under evaluation, there should be multiple sets of label predictions.</p>
-<pre class="r"><code>source(&quot;../lib/train.R&quot;)
-source(&quot;../lib/test.R&quot;)</code></pre>
 <ul>
 <li>Train the model with the entire training set using the selected model.</li>
 </ul>
-<pre class="r"><code>if(run.xgboost){
-  dat_train_xgb &lt;- as.matrix(dat_train)
-  xgboost_train &lt;- train_xgboost(dat_train_xgb)
-  xgbPred &lt;- xgboost_test(xgboost_train$fit, as.matrix(dat_test))
-  cat(&quot;Accuracy&quot;, mean(xgbPred == class_train[which(lottery == 1)]), &quot;\n&quot;)
-  cat(&quot;Time for testing model=&quot;, xgboost_train$time, &quot;s \n&quot;)
-}</code></pre>
-<pre><code>## Accuracy 0.7107438 
-## Time for testing model= 20.67952 s</code></pre>
-<pre class="r"><code>if(run.adaboost){
-  adaboost_train &lt;- train_adaboosting(dat_train)
-  cat(&quot;Time for testing model=&quot;, adaboost_train$time, &quot;s \n&quot;)
-}
-if(run.tree){
-  tree_train &lt;- train_tree(dat_train)
-  cat(&quot;Time for testing model=&quot;, tree_train$time, &quot;s \n&quot;)
-}
-if(run.gbm){
-  gbm_train &lt;-  train_GBM(dat_train)
-  gbmPred &lt;- gbm_test(gbm_train$fit, dat_test)
-  cat(&quot;Accuracy&quot;, mean(gbmPred == class_train[which(lottery == 1)]), &quot;\n&quot;)
-  cat(&quot;Time for testing model=&quot;, gbm_train$time, &quot;s \n&quot;)
-}</code></pre>
-<pre><code>## Using test method...
-## Accuracy 0.6694215 
-## Time for testing model= 1.425655 s</code></pre>
-<pre class="r"><code>if(run.lg){
-  lg_train &lt;- train_logistic(dat_train)
-  cat(&quot;Time for testing model=&quot;, lg_train$time, &quot;s \n&quot;)
-}
-if(run.nnt){
-  nnt_train &lt;- train_nn(dat_train)
-  cat(&quot;Time for testing model=&quot;, nnt_train$time, &quot;s \n&quot;)
-}
-if(run.rf){
-  rf_train &lt;- train_rf(dat_train)
-  cat(&quot;Time for testing model=&quot;, rf_train$time, &quot;s \n&quot;)
-}
-if(run.svm){
-  svm_train &lt;- train_svm(dat_train)
-  cat(&quot;Time for testing model=&quot;, svm_train$time, &quot;s \n&quot;)
-}</code></pre>
 </div>
 <div id="step-5-make-prediction-and-summarize-running-time" class="section level3">
 <h3>Step 5: Make prediction and summarize Running Time</h3>
 <p>Feed the final training model with the completely holdout testing data. Prediction performance matters, so does the running times for constructing features and for training the model, especially when the computation resource is limited.</p>
-<pre class="r"><code>tm_xgboost_test=NA
-tm_adaboost_test=NA
-tm_tree_test=NA
-tm_gbm_test=NA
-tm_lg_test=NA
-tm_nnt_test=NA
-tm_rf_test=NA
-tm_svm_test=NA
-
-if(run.xgboost){
-  load(file=&quot;../lib/XgBoost/XgBoost.RData&quot;)
-  tm_xgboost_test &lt;- system.time(xgboost.pred &lt;- predict(model, as.matrix(dat_test)) + 1)
-  save(xgboost.pred, file=&quot;../output/xgboost.pred.RData&quot;)
-  cat(&quot;Accuracy&quot;, mean(xgboost.pred == class_train[which(lottery == 1)]))
-  cat(&quot;Time for testing model=&quot;, tm_xgboost_test[1], &quot;s \n&quot;)
-}</code></pre>
-<pre><code>## Accuracy 0.3305785Time for testing model= 0.279 s</code></pre>
-<pre class="r"><code>if(run.adaboost){
-  load(file=&quot;../lib/AdaBoost/adaboost.RData&quot;)
-  tm_adaboost_test &lt;- system.time(ada.pred &lt;- predict(adaall, dat_test))
-  save(ada.pred , file=&quot;../output/ada.pred .RData&quot;)
-  cat(&quot;Time for testing model=&quot;, tm_adaboost_test[1], &quot;s \n&quot;)
-}
-if(run.tree){
-  load(file=&quot;../lib/ClassficationTree/tree.RData&quot;)
-  tm_tree_test &lt;- system.time(tree.pred &lt;- predict(tree, dat_test))
-  save(tree.pred, file=&quot;../output/tree.pred.RData&quot;)
-  cat(&quot;Time for testing model=&quot;, tm_tree_test[1], &quot;s \n&quot;)
-}
-if(run.gbm){
-  load(file=&quot;../lib/GBM/GBM.RData&quot;)
-  tm_gbm_test &lt;- system.time(gbm.pred &lt;- predict(gbm_train$fit, dat_test))
-  save(gbm.pred, file=&quot;../output/gbm.pred.RData&quot;)
-  #cat(&quot;Accuracy&quot;, mean(gbm.pred == class_train[which(lottery == 1)]))
-  cat(&quot;Time for testing model=&quot;, tm_gbm_test[1], &quot;s \n&quot;)
-}</code></pre>
-<pre><code>## Using 19 trees...
-## Time for testing model= 0.122 s</code></pre>
-<pre class="r"><code>if(run.lg){
-  load(file=&quot;../lib/Logistic/logistic.RData&quot;)
-  tm_lg_test &lt;- system.time(lg.pred &lt;- predict(fit, dat_test))
-  save(lg.pred, file=&quot;../output/lg.pred.RData&quot;)
-  cat(&quot;Time for testing model=&quot;, tm_lg_test[1], &quot;s \n&quot;)
-}
-if(run.nnt){
-  load(file=&quot;../lib/NeuronNetwork/NeuronNetwork.RData&quot;)
-  tm_nnt_test &lt;- system.time(nnt.pred &lt;- predict(pr.nn, dat_test))
-  save(nnt.pred, file=&quot;../output/nnt.pred.RData&quot;)
-  cat(&quot;Time for testing model=&quot;, tm_nnt_test[1], &quot;s \n&quot;)
-}
-if(run.rf){
-  load(file=&quot;../lib/RandomForest/randomforest.RData&quot;)
-  tm_rf_test &lt;- system.time(rf.pred &lt;- predict(rf_all, dat_test, type=&quot;response&quot;))
-  save(rf.pred , file=&quot;../output/rf.pred .RData&quot;)
-  cat(&quot;Time for testing model=&quot;, tm_rf_test[1], &quot;s \n&quot;)
-}
-if(run.svm){
-  load(file=&quot;../lib/SVM/svm.RData&quot;)
-  tm_svm_test &lt;- system.time(svm.pred &lt;- predict(rad_svm_fit, dat_test))
-  save(svm.pred , file=&quot;../output/svm.pred.RData&quot;)
-  cat(&quot;Time for testing model=&quot;, tm_svm_test[1], &quot;s \n&quot;)
-}</code></pre>
 </div>
 
 
