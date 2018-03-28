@@ -61,7 +61,7 @@ train_rf = function(trainall){
   
   
 #### tree by Yuhan Cha  
-  tree_tree = function(traindata){
+  train_tree = function(traindata){
     begin = Sys.time()
     tree <- tree(as.factor(class) ~ ., data = traindata)
     end= Sys.time()
