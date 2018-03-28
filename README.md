@@ -44,6 +44,8 @@ Mingming Liu: coded the Adaboosting Model and Randomforest Model and their cross
 
 Junkai Zhang: coded the cross validation and grid search procedure of XgBoost Model in R and prepared plots for the powerpoint.
 
+Yuhan Zha: coded the SVM model and classfication tree model and their cross validation in R. Researched LBP feature selection method. Conducted the main.Rmd and main.R.
+
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
