@@ -78,7 +78,7 @@ logistic_test<- function(fit_model,testdata){
 xgboost_test<- function(fit_model, testdata){
   # fit_model should be xgb$fit and testdata has to be a matrix
   xgb.test.data <- xgb.DMatrix(data = testdata)
-  pred <- predict(fit_model,newdata = xgb.test.data)
+  pred <- predict(fit_model,newdata = xgb.test.data) +1
   return(pred)
 }
 #pred <- xgboost_test(xgb$fit,testdata) # predicted output of the xgboost is 0, 1 and 2.

@@ -9,7 +9,7 @@ output:
 
 ### Step 0: Prepare packages
 
-```{r eval=FALSE}
+```{r, warning = FALSE}
 # Load the libraries
 packages.used <- c("EBImage","gbm","caret","nnet","xgboost","xgboost",
                    "haven","tidyverse","mlr","plyr","ggplot2","randomForest",
@@ -51,11 +51,11 @@ library("grDevices")
 ### Step 0: specify directories.
 Set the working directory to the image folder. Specify the training and the testing set. For data without an independent test/validation set, you need to create your own testing data by random subsampling. In order to obain reproducible results, set.seed() whenever randomization is used.
 
-```{r eval=FALSE}
-setwd("~/Desktop/Spring2018-Project3-Group3/")
+```{r, warning = FALSE}
+#setwd("~/Desktop/Spring2018-Project3-Group3/")
 ```
 
-```{r eval=FALSE}
+```{r, warning = FALSE}
 experiment_dir <- "../data/"
 img_train_dir <- paste(experiment_dir, "train/", sep="")
 img_test_dir <- paste(experiment_dir, "test/", sep="")
@@ -70,19 +70,20 @@ In this chunk, we have a set of controls for the evaluation experiments.
 (T/F) run evaluation on an independent test set
 (T/F) process features for test set
 
-```{r eval=FALSE}
+```{r, warning = FALSE}
 run.feature.train = TRUE    
 run.test = TRUE
 run.feature.test = TRUE 
+run.feature.RGB <- FALSE
 ```
 
 ##### Set up controls indicating which model to run 
 
-```{r eval=FALSE}
+```{r, warning = FALSE}
 run.xgboost = TRUE
 run.adaboost = FALSE
 run.tree = FALSE
-run.gbm = FALSE
+run.gbm = TRUE
 run.lg = FALSE
 run.nnt = FALSE
 run.rf = FALSE
@@ -92,7 +93,7 @@ run.svm = FALSE
 ### Step 2: Extract features
 
 
-```{r eval=FALSE}
+```{r}
 source("../lib/SelectFeature.R")
 
 # tm_feature_train <- NA
@@ -110,23 +111,43 @@ source("../lib/SelectFeature.R")
 
 #save(dat_train, file="./output/feature_train.RData")
 #save(dat_test, file="./output/feature_test.RData")
+if (run.feature.RGB)
+{
+  TotalImage <- 2100
+  lottery <- sample(1:5, TotalImage, replace = TRUE)
+  FeatureData <- SelectFeature(N = TotalImage)
+  class_train <- c(rep(1,1000), rep(2, 1000), rep(3, 1000))
+  class_train <- class_train[1:TotalImage]
+  dat_train <- cbind(class_train[which(lottery != 1)], FeatureData[which(lottery != 1),])
+  colnames(dat_train)[1] <- "class"
+  dat_test <-  FeatureData[which(lottery == 1),]
+}
+if (!run.feature.RGB)
+{
+  TotalImage <- 3000
+  lottery <- sample(1:5, TotalImage, replace = TRUE)
+  class_train <- c(rep(1,1000), rep(2, 1000), rep(3, 1000))
+  dat_train <- read.csv("../lib/SIFT_test.csv")
+  dat_train <- dat_train[,-1]
+  dat_test <- dat_train[which(lottery == 1),]
+  dat_train <- cbind(class_train[which(lottery != 1)], dat_train[which(lottery != 1),])
+  colnames(dat_train)[1] <- "class"
+}
+
 ```
 
 
 ### Step 3: Import training and test data of best features.
 
-```{r eval=FALSE}
-tr_class <- read.csv('../output/Feature_v3_TrainClass.csv', header = TRUE)
-tr_data <- read.csv('../output/Feature_v3_TrainClass.csv', header = TRUE)
-te_class <- read.csv('../output/TestClass_SIFT.csv', header = TRUE)
-te_data <- read.csv('../output/TestData_SIFT.csv', header = TRUE)
+```{r, warning = FALSE}
 
-train_all_data <- rbind(tr_data, te_data)
-train_all_class <- rbind(tr_class, te_class)
+
+#train_all_data <- rbind(tr_data, te_data)
+#train_all_class <- rbind(tr_class, te_class)
 
 # Training data
-dat_train <- cbind(train_all_class[,-1], train_all_data[,-1])
-colnames(dat_train)[1] <- "class"
+#dat_train <- cbind(train_all_class[,-1], train_all_data[,-1])
+
 
 # testdata <- cbind(te_class[,-1], te_data[,-1])
 # colnames(test)[1] <- "class"
@@ -145,16 +166,19 @@ Call the train model and test model from library.
   + Input: a path that points to the test set features.
   + Input: an R object that contains a trained classifier.
   + Output: an R object of class label predictions on the test set. If there are multiple classifiers under evaluation, there should be multiple sets of label predictions. 
-```{r eval=FALSE}
+```{r, warning = FALSE}
 source("../lib/train.R")
 source("../lib/test.R")
 ```
 
 
 * Train the model with the entire training set using the selected model.
-```{r eval=FALSE}
+```{r, warning = FALSE, warning=FALSE}
 if(run.xgboost){
-  xgboost_train<- train_xgboost(dat_train)
+  dat_train_xgb <- as.matrix(dat_train)
+  xgboost_train <- train_xgboost(dat_train_xgb)
+  xgbPred <- xgboost_test(xgboost_train$fit, as.matrix(dat_test))
+  cat("Accuracy", mean(xgbPred == class_train[which(lottery == 1)]), "\n")
   cat("Time for testing model=", xgboost_train$time, "s \n")
 }
 if(run.adaboost){
@@ -167,6 +191,8 @@ if(run.tree){
 }
 if(run.gbm){
   gbm_train <-  train_GBM(dat_train)
+  gbmPred <- gbm_test(gbm_train$fit, dat_test)
+  cat("Accuracy", mean(gbmPred == class_train[which(lottery == 1)]), "\n")
   cat("Time for testing model=", gbm_train$time, "s \n")
 }
 if(run.lg){
@@ -192,7 +218,7 @@ if(run.svm){
 Feed the final training model with the completely holdout testing data.
 Prediction performance matters, so does the running times for constructing features and for training the model, especially when the computation resource is limited.
 
-```{r eval=FALSE}
+```{r, warning = FALSE}
 tm_xgboost_test=NA
 tm_adaboost_test=NA
 tm_tree_test=NA
@@ -204,8 +230,9 @@ tm_svm_test=NA
 
 if(run.xgboost){
   load(file="../lib/XgBoost/XgBoost.RData")
-  tm_xgboost_test <- system.time(xgboost.pred <- predict(fit_model, dat_test))
+  tm_xgboost_test <- system.time(xgboost.pred <- predict(model, as.matrix(dat_test)) + 1)
   save(xgboost.pred, file="../output/xgboost.pred.RData")
+  cat("Accuracy", mean(xgboost.pred == class_train[which(lottery == 1)]))
   cat("Time for testing model=", tm_xgboost_test[1], "s \n")
 }
 if(run.adaboost){
@@ -222,8 +249,9 @@ if(run.tree){
 }
 if(run.gbm){
   load(file="../lib/GBM/GBM.RData")
-  tm_gbm_test <- system.time(gbm.pred <- predict(gbm_fit, dat_test))
+  tm_gbm_test <- system.time(gbm.pred <- predict(gbm_train$fit, dat_test))
   save(gbm.pred, file="../output/gbm.pred.RData")
+  #cat("Accuracy", mean(gbm.pred == class_train[which(lottery == 1)]))
   cat("Time for testing model=", tm_gbm_test[1], "s \n")
 }
 if(run.lg){

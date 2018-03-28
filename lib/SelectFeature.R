@@ -1,4 +1,4 @@
-SelectFeature <- function(SIFTname = "SIFT_test.csv", SubGroup = 12)
+SelectFeature <- function(SIFTname = "../lib/SIFT_test.csv", SubGroup = 12, N = 3000)
 {
     NR <- SubGroup
     NG <- SubGroup
@@ -9,7 +9,8 @@ SelectFeature <- function(SIFTname = "SIFT_test.csv", SubGroup = 12)
     #create feature matrix, recieve SIFT feature
     Feature <- read.csv(SIFTname, header = FALSE)
     Feature <- Feature[,-1]
-    N <- nrow(Feature)
+    Feature <- Feature[1:N,]
+    #N <- nrow(Feature)
     RGBfeature <- data.frame(matrix(0, nrow = N, ncol = NR*NG*NB))
     # file name
     ImageName <- function(x)
@@ -21,7 +22,7 @@ SelectFeature <- function(SIFTname = "SIFT_test.csv", SubGroup = 12)
     }
     for (k in 1:N)
     {
-      mat <- readImage(paste("images/", ImageName(k), sep = ""))
+      mat <- readImage(paste("../lib/images/", ImageName(k), sep = ""))
       Interval <- data.frame(findInterval(mat[,,1], RSubgrp))
       Interval[,2] <- findInterval(mat[,,2], gSubgrp)
       Interval[,3] <- findInterval(mat[,,3], bSubgrp)

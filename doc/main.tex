@@ -1,0 +1,758 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Project 3},
+            pdfauthor={Keran Li, Mingming Liu, Zhongxing Xue, Yuhan Zha, Junkai Zhang},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{Project 3}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Keran Li, Mingming Liu, Zhongxing Xue, Yuhan Zha, Junkai Zhang}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{March 19, 2018}
+
+
+\begin{document}
+\maketitle
+
+\subsubsection{Step 0: Prepare packages}\label{step-0-prepare-packages}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Load the libraries}
+\NormalTok{packages.used <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"EBImage"}\NormalTok{,}\StringTok{"gbm"}\NormalTok{,}\StringTok{"caret"}\NormalTok{,}\StringTok{"nnet"}\NormalTok{,}\StringTok{"xgboost"}\NormalTok{,}\StringTok{"xgboost"}\NormalTok{,}
+                   \StringTok{"haven"}\NormalTok{,}\StringTok{"tidyverse"}\NormalTok{,}\StringTok{"mlr"}\NormalTok{,}\StringTok{"plyr"}\NormalTok{,}\StringTok{"ggplot2"}\NormalTok{,}\StringTok{"randomForest"}\NormalTok{,}
+                   \StringTok{"adabag"}\NormalTok{,}\StringTok{"neuralnet"}\NormalTok{,}\StringTok{"grDevices"}\NormalTok{,}\StringTok{"kernlab"}\NormalTok{,}\StringTok{"tree"}\NormalTok{)}
+
+\CommentTok{#if(!require("EBImage"))\{}
+\CommentTok{#  source("https://bioconductor.org/biocLite.R")}
+\CommentTok{#  biocLite("EBImage")}
+\CommentTok{#\}}
+
+\CommentTok{# Check packages}
+\NormalTok{packages.needed=}\KeywordTok{setdiff}\NormalTok{(packages.used, }
+                        \KeywordTok{intersect}\NormalTok{(}\KeywordTok{installed.packages}\NormalTok{()[,}\DecValTok{1}\NormalTok{], }
+\NormalTok{                                  packages.used))}
+\CommentTok{# install needed packages}
+\ControlFlowTok{if}\NormalTok{(}\KeywordTok{length}\NormalTok{(packages.needed)}\OperatorTok{>}\DecValTok{0}\NormalTok{)\{}
+  \KeywordTok{install.packages}\NormalTok{(packages.needed, }\DataTypeTok{dependencies =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{\}}
+
+\KeywordTok{library}\NormalTok{(}\StringTok{"EBImage"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'EBImage' was built under R version 3.4.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"gbm"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: survival
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: lattice
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: splines
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: parallel
+\end{verbatim}
+
+\begin{verbatim}
+## Loaded gbm 2.1.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"kernlab"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(}\StringTok{"tree"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'tree' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"caret"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'caret' was built under R version 3.4.3
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: ggplot2
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'ggplot2'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:kernlab':
+## 
+##     alpha
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'caret'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:survival':
+## 
+##     cluster
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"nnet"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(}\StringTok{"xgboost"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'xgboost' was built under R version 3.4.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"haven"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'haven' was built under R version 3.4.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages ----------------------------------------------------- tidyverse 1.2.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## √ tibble  1.4.2     √ purrr   0.2.4
+## √ tidyr   0.8.0     √ dplyr   0.7.4
+## √ readr   1.1.1     √ stringr 1.3.0
+## √ tibble  1.4.2     √ forcats 0.3.0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'tibble' was built under R version 3.4.3
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'tidyr' was built under R version 3.4.3
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'stringr' was built under R version 3.4.3
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'forcats' was built under R version 3.4.3
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts -------------------------------------------------------- tidyverse_conflicts() --
+## x ggplot2::alpha()   masks kernlab::alpha()
+## x dplyr::combine()   masks EBImage::combine()
+## x purrr::cross()     masks kernlab::cross()
+## x dplyr::filter()    masks stats::filter()
+## x dplyr::lag()       masks stats::lag()
+## x purrr::lift()      masks caret::lift()
+## x dplyr::slice()     masks xgboost::slice()
+## x purrr::transpose() masks EBImage::transpose()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"mlr"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: ParamHelpers
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'mlr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:caret':
+## 
+##     train
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"plyr"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -------------------------------------------------------------------------
+\end{verbatim}
+
+\begin{verbatim}
+## You have loaded plyr after dplyr - this is likely to cause problems.
+## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+## library(plyr); library(dplyr)
+\end{verbatim}
+
+\begin{verbatim}
+## -------------------------------------------------------------------------
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'plyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:dplyr':
+## 
+##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+##     summarize
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     compact
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(}\StringTok{"randomForest"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'randomForest' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## randomForest 4.6-14
+\end{verbatim}
+
+\begin{verbatim}
+## Type rfNews() to see new features/changes/bug fixes.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'randomForest'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     combine
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:ggplot2':
+## 
+##     margin
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:EBImage':
+## 
+##     combine
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"adabag"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'adabag' was built under R version 3.4.3
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: rpart
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'rpart' was built under R version 3.4.3
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: foreach
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'foreach' was built under R version 3.4.3
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'foreach'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:purrr':
+## 
+##     accumulate, when
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: doParallel
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: iterators
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'iterators' was built under R version 3.4.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"neuralnet"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'neuralnet'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     compute
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"grDevices"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Step 0: specify
+directories.}\label{step-0-specify-directories.}
+
+Set the working directory to the image folder. Specify the training and
+the testing set. For data without an independent test/validation set,
+you need to create your own testing data by random subsampling. In order
+to obain reproducible results, set.seed() whenever randomization is
+used.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#setwd("~/Desktop/Spring2018-Project3-Group3/")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{experiment_dir <-}\StringTok{ "../data/"}
+\NormalTok{img_train_dir <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(experiment_dir, }\StringTok{"train/"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+\NormalTok{img_test_dir <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(experiment_dir, }\StringTok{"test/"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Step 1: Set up controls for evaluation
+experiments.}\label{step-1-set-up-controls-for-evaluation-experiments.}
+
+In this chunk, we have a set of controls for the evaluation experiments.
+
+(T/F) process features for training set (T/F) run evaluation on an
+independent test set (T/F) process features for test set
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{run.feature.train =}\StringTok{ }\OtherTok{TRUE}    
+\NormalTok{run.test =}\StringTok{ }\OtherTok{TRUE}
+\NormalTok{run.feature.test =}\StringTok{ }\OtherTok{TRUE} 
+\NormalTok{run.feature.RGB <-}\StringTok{ }\OtherTok{FALSE}
+\end{Highlighting}
+\end{Shaded}
+
+\subparagraph{Set up controls indicating which model to
+run}\label{set-up-controls-indicating-which-model-to-run}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{run.xgboost =}\StringTok{ }\OtherTok{FALSE}
+\NormalTok{run.adaboost =}\StringTok{ }\OtherTok{FALSE}
+\NormalTok{run.tree =}\StringTok{ }\OtherTok{FALSE}
+\NormalTok{run.gbm =}\StringTok{ }\OtherTok{TRUE}
+\NormalTok{run.lg =}\StringTok{ }\OtherTok{FALSE}
+\NormalTok{run.nnt =}\StringTok{ }\OtherTok{FALSE}
+\NormalTok{run.rf =}\StringTok{ }\OtherTok{FALSE}
+\NormalTok{run.svm =}\StringTok{ }\OtherTok{FALSE}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Step 2: Extract features}\label{step-2-extract-features}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{source}\NormalTok{(}\StringTok{"../lib/SelectFeature.R"}\NormalTok{)}
+
+\CommentTok{# tm_feature_train <- NA}
+\CommentTok{# if(run.feature.train)\{}
+\CommentTok{#   tm_feature_train <- system.time(dat_train <- SelectFeature(SIFTname, SubGroup))}
+\CommentTok{# \}}
+\CommentTok{# cat("Time for constructing training features=", tm_feature_train[1], "s \textbackslash{}n")}
+
+\CommentTok{#tm_feature_test <- NA}
+\CommentTok{#if(run.feature.test)\{}
+\CommentTok{#  tm_feature_test <- system.time(dat_test <-SelectFeature())}
+\CommentTok{#\}}
+\CommentTok{# Running time}
+\CommentTok{#cat("Time for constructing testing features=", tm_feature_test[1], "s \textbackslash{}n")}
+
+\CommentTok{#save(dat_train, file="./output/feature_train.RData")}
+\CommentTok{#save(dat_test, file="./output/feature_test.RData")}
+\ControlFlowTok{if}\NormalTok{ (run.feature.RGB)}
+\NormalTok{\{}
+\NormalTok{  TotalImage <-}\StringTok{ }\DecValTok{2100}
+\NormalTok{  lottery <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{, TotalImage, }\DataTypeTok{replace =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{  FeatureData <-}\StringTok{ }\KeywordTok{SelectFeature}\NormalTok{(}\DataTypeTok{N =}\NormalTok{ TotalImage)}
+\NormalTok{  class_train <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1000}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1000}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{1000}\NormalTok{))}
+\NormalTok{  class_train <-}\StringTok{ }\NormalTok{class_train[}\DecValTok{1}\OperatorTok{:}\NormalTok{TotalImage]}
+\NormalTok{  dat_train <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(class_train[}\KeywordTok{which}\NormalTok{(lottery }\OperatorTok{!=}\StringTok{ }\DecValTok{1}\NormalTok{)], FeatureData[}\KeywordTok{which}\NormalTok{(lottery }\OperatorTok{!=}\StringTok{ }\DecValTok{1}\NormalTok{),])}
+  \KeywordTok{colnames}\NormalTok{(dat_train)[}\DecValTok{1}\NormalTok{] <-}\StringTok{ "class"}
+\NormalTok{  dat_test <-}\StringTok{  }\NormalTok{FeatureData[}\KeywordTok{which}\NormalTok{(lottery }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{),]}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\NormalTok{run.feature.RGB)}
+\NormalTok{\{}
+\NormalTok{  TotalImage <-}\StringTok{ }\DecValTok{3000}
+\NormalTok{  lottery <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{, TotalImage, }\DataTypeTok{replace =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{  class_train <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1000}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1000}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{1000}\NormalTok{))}
+\NormalTok{  dat_train <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"../lib/SIFT_test.csv"}\NormalTok{)}
+\NormalTok{  dat_train <-}\StringTok{ }\NormalTok{dat_train[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]}
+\NormalTok{  dat_test <-}\StringTok{ }\NormalTok{dat_train[}\KeywordTok{which}\NormalTok{(lottery }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{),]}
+\NormalTok{  dat_train <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(class_train[}\KeywordTok{which}\NormalTok{(lottery }\OperatorTok{!=}\StringTok{ }\DecValTok{1}\NormalTok{)], dat_train[}\KeywordTok{which}\NormalTok{(lottery }\OperatorTok{!=}\StringTok{ }\DecValTok{1}\NormalTok{),])}
+  \KeywordTok{colnames}\NormalTok{(dat_train)[}\DecValTok{1}\NormalTok{] <-}\StringTok{ "class"}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Step 3: Import training and test data of best
+features.}\label{step-3-import-training-and-test-data-of-best-features.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#train_all_data <- rbind(tr_data, te_data)}
+\CommentTok{#train_all_class <- rbind(tr_class, te_class)}
+
+\CommentTok{# Training data}
+\CommentTok{#dat_train <- cbind(train_all_class[,-1], train_all_data[,-1])}
+
+
+\CommentTok{# testdata <- cbind(te_class[,-1], te_data[,-1])}
+\CommentTok{# colnames(test)[1] <- "class"}
+\CommentTok{# dim(dat_train)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Step 4: Train a classification model with training
+images}\label{step-4-train-a-classification-model-with-training-images}
+
+Call the train model and test model from library.
+
+\texttt{train.R} and \texttt{test.R} should be wrappers for all your
+model training steps and your classification/prediction steps. +
+\texttt{train.R} + Input: a path that points to the training set
+features. + Input: an R object of training sample labels. + Output: an
+RData file that contains trained classifiers in the forms of R objects:
+models/settings/links to external trained configurations. +
+\texttt{test.R} + Input: a path that points to the test set features. +
+Input: an R object that contains a trained classifier. + Output: an R
+object of class label predictions on the test set. If there are multiple
+classifiers under evaluation, there should be multiple sets of label
+predictions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{source}\NormalTok{(}\StringTok{"../lib/train.R"}\NormalTok{)}
+\KeywordTok{source}\NormalTok{(}\StringTok{"../lib/test.R"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  Train the model with the entire training set using the selected model.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{(run.xgboost)\{}
+\NormalTok{  dat_train_xgb <-}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(dat_train)}
+\NormalTok{  xgboost_train <-}\StringTok{ }\KeywordTok{train_xgboost}\NormalTok{(dat_train_xgb)}
+\NormalTok{  xgbPred <-}\StringTok{ }\KeywordTok{xgboost_test}\NormalTok{(xgboost_train}\OperatorTok{$}\NormalTok{fit, }\KeywordTok{as.matrix}\NormalTok{(dat_test))}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Accuracy"}\NormalTok{, }\KeywordTok{mean}\NormalTok{(xgbPred }\OperatorTok{==}\StringTok{ }\NormalTok{class_train[}\KeywordTok{which}\NormalTok{(lottery }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{)]))}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, xgboost_train}\OperatorTok{$}\NormalTok{time, }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(run.adaboost)\{}
+\NormalTok{  adaboost_train <-}\StringTok{ }\KeywordTok{train_adaboosting}\NormalTok{(dat_train)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, adaboost_train}\OperatorTok{$}\NormalTok{time, }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(run.tree)\{}
+\NormalTok{  tree_train <-}\StringTok{ }\KeywordTok{train_tree}\NormalTok{(dat_train)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, tree_train}\OperatorTok{$}\NormalTok{time, }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(run.gbm)\{}
+\NormalTok{  gbm_train <-}\StringTok{  }\KeywordTok{train_GBM}\NormalTok{(dat_train)}
+\NormalTok{  gbmPred <-}\StringTok{ }\KeywordTok{gbm_test}\NormalTok{(gbm_train}\OperatorTok{$}\NormalTok{fit, dat_test)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Accuracy"}\NormalTok{, }\KeywordTok{mean}\NormalTok{(gbmPred }\OperatorTok{==}\StringTok{ }\NormalTok{class_train[}\KeywordTok{which}\NormalTok{(lottery }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{)]))}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, gbm_train}\OperatorTok{$}\NormalTok{time, }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Using test method...
+## Accuracy 0.5260586Time for testing model= 1.272167 s
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{(run.lg)\{}
+\NormalTok{  lg_train <-}\StringTok{ }\KeywordTok{train_logistic}\NormalTok{(dat_train)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, lg_train}\OperatorTok{$}\NormalTok{time, }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(run.nnt)\{}
+\NormalTok{  nnt_train <-}\StringTok{ }\KeywordTok{train_nn}\NormalTok{(dat_train)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, nnt_train}\OperatorTok{$}\NormalTok{time, }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(run.rf)\{}
+\NormalTok{  rf_train <-}\StringTok{ }\KeywordTok{train_rf}\NormalTok{(dat_train)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, rf_train}\OperatorTok{$}\NormalTok{time, }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(run.svm)\{}
+\NormalTok{  svm_train <-}\StringTok{ }\KeywordTok{train_svm}\NormalTok{(dat_train)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, svm_train}\OperatorTok{$}\NormalTok{time, }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Step 5: Make prediction and summarize Running
+Time}\label{step-5-make-prediction-and-summarize-running-time}
+
+Feed the final training model with the completely holdout testing data.
+Prediction performance matters, so does the running times for
+constructing features and for training the model, especially when the
+computation resource is limited.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tm_xgboost_test=}\OtherTok{NA}
+\NormalTok{tm_adaboost_test=}\OtherTok{NA}
+\NormalTok{tm_tree_test=}\OtherTok{NA}
+\NormalTok{tm_gbm_test=}\OtherTok{NA}
+\NormalTok{tm_lg_test=}\OtherTok{NA}
+\NormalTok{tm_nnt_test=}\OtherTok{NA}
+\NormalTok{tm_rf_test=}\OtherTok{NA}
+\NormalTok{tm_svm_test=}\OtherTok{NA}
+
+\ControlFlowTok{if}\NormalTok{(run.xgboost)\{}
+  \KeywordTok{load}\NormalTok{(}\DataTypeTok{file=}\StringTok{"../lib/XgBoost/XgBoost.RData"}\NormalTok{)}
+\NormalTok{  tm_xgboost_test <-}\StringTok{ }\KeywordTok{system.time}\NormalTok{(xgboost.pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(model, }\KeywordTok{as.matrix}\NormalTok{(dat_test)) }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{)}
+  \KeywordTok{save}\NormalTok{(xgboost.pred, }\DataTypeTok{file=}\StringTok{"../output/xgboost.pred.RData"}\NormalTok{)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Accuracy"}\NormalTok{, }\KeywordTok{mean}\NormalTok{(xgboost.pred }\OperatorTok{==}\StringTok{ }\NormalTok{class_train[}\KeywordTok{which}\NormalTok{(lottery }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{)]))}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, tm_xgboost_test[}\DecValTok{1}\NormalTok{], }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(run.adaboost)\{}
+  \KeywordTok{load}\NormalTok{(}\DataTypeTok{file=}\StringTok{"../lib/AdaBoost/adaboost.RData"}\NormalTok{)}
+\NormalTok{  tm_adaboost_test <-}\StringTok{ }\KeywordTok{system.time}\NormalTok{(ada.pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(adaall, dat_test))}
+  \KeywordTok{save}\NormalTok{(ada.pred , }\DataTypeTok{file=}\StringTok{"../output/ada.pred .RData"}\NormalTok{)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, tm_adaboost_test[}\DecValTok{1}\NormalTok{], }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(run.tree)\{}
+  \KeywordTok{load}\NormalTok{(}\DataTypeTok{file=}\StringTok{"../lib/ClassficationTree/tree.RData"}\NormalTok{)}
+\NormalTok{  tm_tree_test <-}\StringTok{ }\KeywordTok{system.time}\NormalTok{(tree.pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(tree, dat_test))}
+  \KeywordTok{save}\NormalTok{(tree.pred, }\DataTypeTok{file=}\StringTok{"../output/tree.pred.RData"}\NormalTok{)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, tm_tree_test[}\DecValTok{1}\NormalTok{], }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(run.gbm)\{}
+  \KeywordTok{load}\NormalTok{(}\DataTypeTok{file=}\StringTok{"../lib/GBM/GBM.RData"}\NormalTok{)}
+\NormalTok{  tm_gbm_test <-}\StringTok{ }\KeywordTok{system.time}\NormalTok{(gbm.pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(gbm_train}\OperatorTok{$}\NormalTok{fit, dat_test))}
+  \KeywordTok{save}\NormalTok{(gbm.pred, }\DataTypeTok{file=}\StringTok{"../output/gbm.pred.RData"}\NormalTok{)}
+  \CommentTok{#cat("Accuracy", mean(gbm.pred == class_train[which(lottery == 1)]))}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, tm_gbm_test[}\DecValTok{1}\NormalTok{], }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Using 19 trees...
+## Time for testing model= 0.104 s
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{(run.lg)\{}
+  \KeywordTok{load}\NormalTok{(}\DataTypeTok{file=}\StringTok{"../lib/Logistic/logistic.RData"}\NormalTok{)}
+\NormalTok{  tm_lg_test <-}\StringTok{ }\KeywordTok{system.time}\NormalTok{(lg.pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(fit, dat_test))}
+  \KeywordTok{save}\NormalTok{(lg.pred, }\DataTypeTok{file=}\StringTok{"../output/lg.pred.RData"}\NormalTok{)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, tm_lg_test[}\DecValTok{1}\NormalTok{], }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(run.nnt)\{}
+  \KeywordTok{load}\NormalTok{(}\DataTypeTok{file=}\StringTok{"../lib/NeuronNetwork/NeuronNetwork.RData"}\NormalTok{)}
+\NormalTok{  tm_nnt_test <-}\StringTok{ }\KeywordTok{system.time}\NormalTok{(nnt.pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(pr.nn, dat_test))}
+  \KeywordTok{save}\NormalTok{(nnt.pred, }\DataTypeTok{file=}\StringTok{"../output/nnt.pred.RData"}\NormalTok{)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, tm_nnt_test[}\DecValTok{1}\NormalTok{], }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(run.rf)\{}
+  \KeywordTok{load}\NormalTok{(}\DataTypeTok{file=}\StringTok{"../lib/RandomForest/randomforest.RData"}\NormalTok{)}
+\NormalTok{  tm_rf_test <-}\StringTok{ }\KeywordTok{system.time}\NormalTok{(rf.pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(rf_all, dat_test, }\DataTypeTok{type=}\StringTok{"response"}\NormalTok{))}
+  \KeywordTok{save}\NormalTok{(rf.pred , }\DataTypeTok{file=}\StringTok{"../output/rf.pred .RData"}\NormalTok{)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, tm_rf_test[}\DecValTok{1}\NormalTok{], }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(run.svm)\{}
+  \KeywordTok{load}\NormalTok{(}\DataTypeTok{file=}\StringTok{"../lib/SVM/svm.RData"}\NormalTok{)}
+\NormalTok{  tm_svm_test <-}\StringTok{ }\KeywordTok{system.time}\NormalTok{(svm.pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(rad_svm_fit, dat_test))}
+  \KeywordTok{save}\NormalTok{(svm.pred , }\DataTypeTok{file=}\StringTok{"../output/svm.pred.RData"}\NormalTok{)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Time for testing model="}\NormalTok{, tm_svm_test[}\DecValTok{1}\NormalTok{], }\StringTok{"s }\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

@@ -15,7 +15,7 @@
 
 ####GBM by Zhongxing Xue
 
-train_GBM <- function(traindata, shr = 0.03, dep = 3, ntree = 800) {
+train_GBM <- function(traindata, shr = 0.03, dep = 3, ntree = 200) {
   ####this parameter is determined by cross vaildation
   TrainClass <- traindata[,1]
   TrainData <- traindata[,-1]
@@ -26,7 +26,7 @@ train_GBM <- function(traindata, shr = 0.03, dep = 3, ntree = 800) {
                      shrinkage = shr,
                      interaction.depth = dep, 
                      nTrain = 0.8 * length(TrainClass),
-                     verbose = TRUE)
+                     verbose = FALSE)
   timeend<-Sys.time()
   runningtime<-timeend-timestart
   return(list(fit = gbm_fit, time = runningtime))
