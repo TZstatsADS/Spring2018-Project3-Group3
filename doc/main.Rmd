@@ -173,7 +173,7 @@ source("../lib/test.R")
 
 
 * Train the model with the entire training set using the selected model.
-```{r, warning = FALSE, warning=FALSE}
+```{r, warning = FALSE}
 if(run.xgboost){
   dat_train_xgb <- as.matrix(dat_train)
   xgboost_train <- train_xgboost(dat_train_xgb)
