@@ -25,8 +25,8 @@ gbm_test <- function(gbm_fit, TestData)
 
 
 ####randomForest by Mingming Liu
-rf_test <- function(fit_train,test_data){
-  pred <- predict.boosting(adaall$fit,newdata=test_xall)
+rf_test <- function(fit_train,dat_test){
+  pred <- predict(fit_model,newdata=dat_test, type="response")
   return(pred)
 }
 
@@ -50,7 +50,7 @@ tree_test<- function(fit_model, dat_test){
 
 ####Adaboosting by Mingming Liu
 adaboost_test<- function(fit_model, dat_test){
-  predict <- predict.boosting(adaall$fit,newdata=test_xall)
+  predict <- predict.boosting(fit_model,newdata=dat_test)
   adapredict <- as.numeric(predict$class)
   return(adapredict)
 }
@@ -78,8 +78,8 @@ logistic_test<- function(fit_model,testdata){
 xgboost_test<- function(fit_model, testdata){
   # fit_model should be xgb$fit and testdata has to be a matrix
   xgb.test.data <- xgb.DMatrix(data = testdata)
-  pred <- predict(fit_model,newdata = xgb.test.data) + 1
+  pred <- predict(fit_model,newdata = xgb.test.data)
   return(pred)
 }
 #pred <- xgboost_test(xgb$fit,testdata) # predicted output of the xgboost is 0, 1 and 2.
-#sum(pred==test.class[,2])/nrow(test.class)
+#sum(pred==test.class[,2] - 1)/nrow(test.class)
