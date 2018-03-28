@@ -9,7 +9,7 @@ output:
 
 ### Step 0: Prepare packages
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, message=FALSE,include=FALSE}
 # Load the libraries
 packages.used <- c("EBImage","gbm","caret","nnet","xgboost","xgboost",
                    "haven","tidyverse","mlr","plyr","ggplot2","randomForest",
@@ -51,11 +51,11 @@ library("grDevices")
 ### Step 0: specify directories.
 Set the working directory to the image folder. Specify the training and the testing set. For data without an independent test/validation set, you need to create your own testing data by random subsampling. In order to obain reproducible results, set.seed() whenever randomization is used.
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, message=FALSE,include=FALSE}
 #setwd("~/Desktop/Spring2018-Project3-Group3/")
 ```
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, message=FALSE,include=FALSE}
 experiment_dir <- "../data/"
 img_train_dir <- paste(experiment_dir, "train/", sep="")
 img_test_dir <- paste(experiment_dir, "test/", sep="")
@@ -70,7 +70,7 @@ In this chunk, we have a set of controls for the evaluation experiments.
 (T/F) run evaluation on an independent test set
 (T/F) process features for test set
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, message=FALSE,include=FALSE}
 run.feature.train = TRUE    
 run.test = TRUE
 run.feature.test = TRUE 
@@ -79,7 +79,7 @@ run.feature.RGB <- FALSE
 
 ##### Set up controls indicating which model to run 
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, message=FALSE,include=FALSE}
 run.xgboost = TRUE
 run.adaboost = FALSE
 run.tree = FALSE
@@ -93,7 +93,7 @@ run.svm = FALSE
 ### Step 2: Extract features
 
 
-```{r}
+```{r, warning= FALSE, message=FALSE,include=FALSE}
 source("../lib/SelectFeature.R")
 
 # tm_feature_train <- NA
@@ -139,7 +139,7 @@ if (!run.feature.RGB)
 
 ### Step 3: Import training and test data of best features.
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, message=FALSE,include=FALSE}
 
 
 #train_all_data <- rbind(tr_data, te_data)
@@ -166,14 +166,14 @@ Call the train model and test model from library.
   + Input: a path that points to the test set features.
   + Input: an R object that contains a trained classifier.
   + Output: an R object of class label predictions on the test set. If there are multiple classifiers under evaluation, there should be multiple sets of label predictions. 
-```{r, warning = FALSE}
+```{r, warning = FALSE, message=FALSE,include=FALSE}
 source("../lib/train.R")
 source("../lib/test.R")
 ```
 
 
 * Train the model with the entire training set using the selected model.
-```{r, warning = FALSE, warning=FALSE}
+```{r, warning = FALSE, message=FALSE,include=FALSE}
 if(run.xgboost){
   dat_train_xgb <- as.matrix(dat_train)
   xgboost_train <- train_xgboost(dat_train_xgb)
@@ -218,7 +218,7 @@ if(run.svm){
 Feed the final training model with the completely holdout testing data.
 Prediction performance matters, so does the running times for constructing features and for training the model, especially when the computation resource is limited.
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, message=FALSE,include=FALSE}
 tm_xgboost_test=NA
 tm_adaboost_test=NA
 tm_tree_test=NA
