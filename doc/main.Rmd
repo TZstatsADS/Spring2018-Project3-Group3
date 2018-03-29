@@ -113,7 +113,7 @@ source("../lib/SelectFeature.R")
 #save(dat_test, file="./output/feature_test.RData")
 if (run.feature.RGB)
 {
-  TotalImage <- 2100
+  TotalImage <- 3000
   lottery <- sample(1:5, TotalImage, replace = TRUE)
   FeatureData <- SelectFeature(N = TotalImage)
   class_train <- c(rep(1,1000), rep(2, 1000), rep(3, 1000))
