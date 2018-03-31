@@ -42,7 +42,7 @@ Keran Li: coded the Neural Network Model, Logistic Regression Model and their cr
 Mingming Liu: coded the Adaboosting Model and Randomforest Model and their cross validation in R. Responsible for organized the test and train document and help Xue to prepared for the explaination of determined colors.
 
 
-Junkai Zhang: coded the cross validation and grid search procedure of XgBoost Model in R and prepared plots for the powerpoint.
+Junkai Zhang: coded the cross validation and grid search procedure of XgBoost Model in R, prepared plots for the powerpoint and participated in the edit of main.rmd.
 
 Yuhan Zha: coded the SVM model and classfication tree model and their cross validation in R. Researched LBP feature selection method. Conducted the main.Rmd and main.R.
 
